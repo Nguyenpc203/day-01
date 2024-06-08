@@ -1,23 +1,18 @@
 // src/controllers/UserController.js
-const User = require('../models/UserModel');
+const UserService = require('../services/UserService');
 
-// Tạo người dùng mới
 const createUser = async (req, res) => {
     try {
-        const { username, email, password, status } = req.body;
-        const user = new User({ username, email, password, status });
-        await user.save();
+        const user = await UserService.createUser(req.body);
         res.status(201).json(user);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
-// Đọc thông tin người dùng
 const getUser = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const user = await User.findById(userId).populate('posts');
+        const user = await UserService.getUserById(req.params.id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -27,26 +22,21 @@ const getUser = async (req, res) => {
     }
 };
 
-// Cập nhật trạng thái người dùng
-const updateUserStatus = async (req, res) => {
+const updateUser = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const { status } = req.body;
-        const user = await User.findByIdAndUpdate(userId, { status }, { new: true });
-        if (!user) {
+        const updatedUser = await UserService.updateUser(req.params.id, req.body);
+        if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
-        res.status(200).json(user);
+        res.status(200).json(updatedUser);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
-// Xóa người dùng
 const deleteUser = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const user = await User.findByIdAndDelete(userId);
+        const user = await UserService.deleteUserById(req.params.id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -59,6 +49,6 @@ const deleteUser = async (req, res) => {
 module.exports = {
     createUser,
     getUser,
-    updateUserStatus,
+    updateUser,
     deleteUser
 };

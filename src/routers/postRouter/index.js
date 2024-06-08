@@ -1,18 +1,13 @@
 // src/routers/postRouter.js
 const express = require('express');
-const {
-    createPost,
-    getPost,
-    updatePost,
-    deletePost
-} = require('../../controllers/PostController');
+const PostController = require('../../controllers/PostController');
 
 const router = express.Router();
 
 // Định nghĩa các route cho post
-router.post('/posts', createPost);
-router.get('/posts/:id', getPost);
-router.patch('/posts/:id', updatePost);
-router.delete('/posts/:id', deletePost);
+router.post('/posts', PostController.createPost);
+router.get('/posts/:id', PostController.getPost);
+router.patch('/posts/:id', PostController.updatePost);
+router.delete('/posts/:id', PostController.deletePost);
 
 module.exports = router;

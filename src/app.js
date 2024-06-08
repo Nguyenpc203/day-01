@@ -13,10 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse application/x-www-f
 // Sử dụng router chính
 app.use('/api', router);
 
-// Routes
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+
 
 // Start the server
 app.listen(port, () => {

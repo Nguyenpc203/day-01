@@ -6,7 +6,7 @@ const postRouter = require('./postRouter');
 const router = express.Router();
 
 // Sử dụng các router
-router.use(userRouter);
-router.use(postRouter);
+router.use('/v1', userRouter);
+router.use('/v1', postRouter);
 
 module.exports = router;
